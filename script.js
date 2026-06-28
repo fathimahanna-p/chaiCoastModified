@@ -1,13 +1,33 @@
-// Video fallback: if video file missing, show photo layer
-const vid = document.getElementById('heroVideo');
+// Canvas Animation for chaiglassAnime
+const canvas = document.getElementById('heroVideo');
 const fallback = document.querySelector('.hero-photo-fallback');
-if (vid) {
-  vid.addEventListener('error', () => { vid.style.display='none'; fallback.style.display='block'; });
-  vid.addEventListener('loadeddata', () => { fallback.style.display='none'; });
-  // If no mp4 src exists yet, show photo immediately
-  if (!vid.querySelector('source') || !vid.querySelector('source').src.includes('hero-video')) {
-    fallback.style.display = 'block';
+if (canvas && canvas.tagName === 'CANVAS') {
+  const ctx = canvas.getContext('2d');
+  const frameCount = 210;
+  const images = [];
+  let currentFrame = 1;
+
+  for (let i = 1; i <= frameCount; i++) {
+    const img = new Image();
+    const frameNum = i.toString().padStart(3, '0');
+    img.src = `assets/chaiglassAnime/ezgif-frame-${frameNum}.png`;
+    images.push(img);
   }
+  
+  // Set canvas dimensions based on the first image once it loads
+  images[0].onload = () => {
+    canvas.width = images[0].width;
+    canvas.height = images[0].height;
+    if (fallback) fallback.style.display = 'none';
+  };
+
+  setInterval(() => {
+    const img = images[currentFrame - 1];
+    if (img && img.complete && img.naturalWidth !== 0) {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+    currentFrame = (currentFrame % frameCount) + 1;
+  }, 1000 / 24); // 24 FPS
 }
 
 // Nav scroll effect
