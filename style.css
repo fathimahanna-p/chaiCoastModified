@@ -1221,7 +1221,29 @@ footer {
   }
 
   #home {
+    height: 400vh; /* a bit more scroll space on mobile */
+  }
+
+  .hero-sticky {
     padding: 0 1.5rem 4rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .btn-primary, .btn-ghost {
+    text-align: center;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
   }
 
   #about {
@@ -1236,6 +1258,14 @@ footer {
     padding: 3.5rem 1.8rem;
   }
 
+  .about-stats {
+    gap: 1.5rem;
+  }
+
+  .stat-num {
+    font-size: 2.2rem;
+  }
+
   #menu {
     padding: 5rem 1.5rem;
   }
@@ -1248,6 +1278,7 @@ footer {
 
   .menu-header p {
     text-align: left;
+    max-width: 100%;
   }
 
   .menu-grid {
@@ -1287,6 +1318,10 @@ footer {
     min-height: 280px;
   }
 
+  .contact-item-val {
+    font-size: 0.8rem;
+  }
+
   .contact-info {
     padding: 3rem 1.8rem;
   }
@@ -1300,6 +1335,35 @@ footer {
 
   .footer-links {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  nav {
+    padding: 1rem;
+  }
+  
+  .hero-sticky {
+    padding: 0 1.2rem 3rem;
+  }
+  
+  .franchise-bg-text {
+    font-size: 25vw;
+  }
+  
+  .about-stats {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .stat-label {
+    margin-top: 0.1rem;
   }
 }
 
