@@ -1,33 +1,57 @@
-// Canvas Animation for chaiglassAnime
+// Canvas Animation for Scroll
 const canvas = document.getElementById('heroVideo');
 const fallback = document.querySelector('.hero-photo-fallback');
 if (canvas && canvas.tagName === 'CANVAS') {
   const ctx = canvas.getContext('2d');
-  const frameCount = 210;
+  const frameCount = 74;
   const images = [];
-  let currentFrame = 1;
 
   for (let i = 1; i <= frameCount; i++) {
     const img = new Image();
     const frameNum = i.toString().padStart(3, '0');
-    img.src = `assets/chaiglassAnime/ezgif-frame-${frameNum}.png`;
+    img.src = `assets/animation/ezgif-frame-${frameNum}.png`;
     images.push(img);
   }
-  
-  // Set canvas dimensions based on the first image once it loads
+
   images[0].onload = () => {
     canvas.width = images[0].width;
     canvas.height = images[0].height;
     if (fallback) fallback.style.display = 'none';
+    ctx.drawImage(images[0], 0, 0, canvas.width, canvas.height);
   };
 
-  setInterval(() => {
-    const img = images[currentFrame - 1];
-    if (img && img.complete && img.naturalWidth !== 0) {
+  const homeSection = document.getElementById('home');
+  
+  let currentFrame = 0;
+  let targetFrame = 0;
+  
+  // Smooth frame interpolation for premium feel
+  function render() {
+    currentFrame += (targetFrame - currentFrame) * 0.1;
+    
+    const frameIndex = Math.min(frameCount - 1, Math.max(0, Math.floor(currentFrame)));
+    const img = images[frameIndex];
+    
+    if (img && img.complete && img.naturalWidth !== 0 && canvas.width > 0) {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
-    currentFrame = (currentFrame % frameCount) + 1;
-  }, 1000 / 24); // 24 FPS
+    
+    requestAnimationFrame(render);
+  }
+  
+  requestAnimationFrame(render);
+
+  window.addEventListener('scroll', () => {
+    if (!homeSection) return;
+    
+    const maxScroll = homeSection.offsetHeight - window.innerHeight;
+    let scrollFraction = window.scrollY / maxScroll;
+    
+    // Clamp fraction
+    scrollFraction = Math.max(0, Math.min(1, scrollFraction));
+    
+    targetFrame = scrollFraction * (frameCount - 1);
+  }, { passive: true });
 }
 
 // Nav scroll effect
