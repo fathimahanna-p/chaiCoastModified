@@ -22,6 +22,21 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   background: var(--white);
   color: var(--ink);
@@ -81,7 +96,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   transition:
-    background 0.4s,
+    background-color 0.4s,
     backdrop-filter 0.4s,
     box-shadow 0.4s;
 }
@@ -1006,6 +1021,8 @@ nav.scrolled .hamburger span {
   border: none;
   display: block;
   filter: sepia(20%) contrast(90%);
+  min-height: 220px;
+  background: #e7d8c4;
 }
 
 .contact-info {
